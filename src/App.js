@@ -3,7 +3,7 @@ import { Footer, Header } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ContactUs, MainPage } from "./pages";
+import { About, AdmissionForm, Blog, ContactUs, MainPage } from "./pages";
 
 const App = () => {
   return (
@@ -11,6 +11,9 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/home" element={<MainPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/admission-form" element={<AdmissionForm />} />
         <Route path="/contact-us" element={<ContactUs />} />
       </Routes>
       <Footer />

@@ -1,6 +1,8 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
+import { LinkRouter } from "../comon";
 
 const Header = () => {
   return (
@@ -14,15 +16,17 @@ const Header = () => {
               width="50px"
               height="50px"
             />
-            <span>GIGCCL</span>
+            <span className="fs-5 fw-bolder">GIGCCL</span>
           </div>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
-            <Nav.Link href="/link">Admission</Nav.Link>
-            <Nav.Link href="/contact-us">Contact US</Nav.Link>
+          <Nav className="ms-auto d-flex align-items-center gap-5">
+            <LinkRouter path="/home" title="Home" />
+            <LinkRouter path="/about" title="About" />
+            <LinkRouter path="/admission-form" title="Admission" />
+            <LinkRouter path="/blog" title="Blog" />
+            <LinkRouter path="/contact-us" title="Contact us" />
           </Nav>
         </Navbar.Collapse>
       </Container>
