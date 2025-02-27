@@ -4,7 +4,7 @@ import { LinkRouter } from "../comon";
 
 const Footer = () => {
   return (
-    <Container fluid>
+    <Container>
       <Row className="bg-black p-3 py-5">
         <Col className="d-flex flex-column gap-2">
           <div className="d-flex align-items-center gap-2">

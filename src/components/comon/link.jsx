@@ -11,7 +11,7 @@ const LinkRouter = ({
   return (
     <Link
       to={path}
-      className={`text-decoration-none fw-bolder fs-6 ${className}`}
+      className={`text-decoration-none fw-bold fs-6 ${className}`}
       {...props}
     >
       {title} {children}
