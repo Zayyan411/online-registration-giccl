@@ -6,11 +6,11 @@ import { About } from "./about";
 
 const MainPage = () => {
   return (
-    <Container className="container-xxl d-flex flex-column gap-3">
+    <>
       <Home />
       <About />
       <ContactUs />
-    </Container>
+    </>
   );
 };
 

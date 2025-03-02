@@ -1,11 +1,11 @@
 import React from "react";
-import { Col, Container, Row, Stack } from "react-bootstrap";
+import { Col, Container, Stack } from "react-bootstrap";
 import { LinkRouter } from "../comon";
 
 const Footer = () => {
   return (
-    <Container>
-      <Row className="bg-black p-3 py-5">
+    <div className="bg-black">
+      <Container fluid className="row py-5 p-3">
         <Col className="d-flex flex-column gap-2">
           <div className="d-flex align-items-center gap-2">
             <img
@@ -56,8 +56,8 @@ const Footer = () => {
             </LinkRouter>
           </div>
         </Col>
-      </Row>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

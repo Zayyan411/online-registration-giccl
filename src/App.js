@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, Header } from "./components";
+import { DepartmentSection, Footer, Header } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -15,6 +15,7 @@ const App = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/admission-form" element={<AdmissionForm />} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/departments" element={<DepartmentSection />} />
       </Routes>
       <Footer />
     </BrowserRouter>
