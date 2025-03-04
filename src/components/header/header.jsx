@@ -3,12 +3,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { LinkRouter } from "../comon";
 import { Dropdown, NavDropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <Navbar expand="lg" className="bg-black">
+    <Navbar expand="lg" style={{ background: "#036674" }}>
       <Container>
-        <Navbar.Brand href="/home">
+        <Navbar.Brand as={Link} to="/">
           <div className="d-flex align-items-center gap-2">
             <img
               src="http://www.giccl.edu.pk/assets/images/logonewgic-144x144.jpg"
@@ -23,48 +24,108 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto d-flex align-items-center gap-4">
-            <LinkRouter
-              path="/home"
-              title="Home"
-              className="text-white fw-bold"
-            />
+            <Dropdown>
+              <Dropdown.Toggle
+                style={{ background: "transparent", border: "unset" }}
+                id="dropdown-basic"
+              >
+                Admission
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  as={Link}
+                  to="inter-admission"
+                  className="text-black fw-bold"
+                >
+                  Intermediate
+                </Dropdown.Item>
+
+                <Dropdown.Item
+                  as={Link}
+                  to="/bs-admission"
+                  className="text-black fw-bold"
+                >
+                  Bs
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
             <LinkRouter
               path="/about"
               title="About"
               className="text-white fw-bold"
             />
-            <LinkRouter
-              path="/admission-form"
-              title="Admission"
-              className="text-white fw-bold"
-            />
-            <LinkRouter
-              path="/blog"
-              title="Blog"
-              className="text-white fw-bold"
-            />
+            <Dropdown>
+              <Dropdown.Toggle
+                style={{ background: "transparent", border: "unset" }}
+                id="dropdown-basic"
+              >
+                Academics
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <LinkRouter
+                    path="/departments"
+                    title=" Departments"
+                    className="text-black fw-bold"
+                  />
+                </Dropdown.Item>
+                <NavDropdown
+                  title="Time Table"
+                  id="nav-dropdown"
+                  className="px-2 fw-bold text-black"
+                >
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/inter-timetable"
+                    className="text-black fw-bold"
+                  >
+                    Intermediate
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/bs-timetable"
+                    className="text-black fw-bold"
+                  >
+                    BS
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Dropdown.Item to="/conferences">
+                  <LinkRouter
+                    path="/conferences"
+                    title=" Conferences"
+                    className="text-black fw-bold"
+                  />
+                </Dropdown.Item>
+                <NavDropdown
+                  title="Examinations"
+                  id="nav-dropdown"
+                  className="px-2 fw-bold text-black"
+                >
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/inter-examinations"
+                    className="text-black fw-bold"
+                  >
+                    Intermediate
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/bs-examinations"
+                    className="text-black fw-bold"
+                  >
+                    BS
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Dropdown.Menu>
+            </Dropdown>
             <LinkRouter
               path="/contact-us"
               title="Contact us"
               className="text-white fw-bold"
             />
-            <Dropdown>
-              <Dropdown.Toggle variant="info" id="dropdown-basic">
-                Dropdown Button
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item href="/departments">
-                  <LinkRouter
-                    path="/department"
-                    title="Departments"
-                    className="fw-bold"
-                  />
-                </Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

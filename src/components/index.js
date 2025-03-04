@@ -1,3 +1,4 @@
 export * from "./footer";
 export * from "./header";
-export * from "./navbar-dropdown";
+export * from "./academics-menu";
+export * from "./admission-menu";
