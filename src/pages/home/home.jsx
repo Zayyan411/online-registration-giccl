@@ -1,7 +1,11 @@
 import { CarouselSlider } from "./carousel";
 
 function Home() {
-  return <CarouselSlider />;
+  return (
+    <>
+      <CarouselSlider />
+    </>
+  );
 }
 
 export { Home };

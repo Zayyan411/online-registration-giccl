@@ -7,7 +7,15 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <Navbar expand="lg" style={{ background: "#036674" }}>
+    <Navbar
+      expand="lg"
+      style={{
+        background: "#036674",
+        position: "sticky",
+        top: "0",
+        zIndex: "1000",
+      }}
+    >
       <Container>
         <Navbar.Brand as={Link} to="/">
           <div className="d-flex align-items-center gap-2">

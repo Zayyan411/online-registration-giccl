@@ -1,6 +1,36 @@
+/* Apply smooth scrolling */
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif !important;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar for WebKit Browsers */
+::-webkit-scrollbar {
+  width: 6px; /* Reduce width for a sleeker look */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light background */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #024e58; /* Dark teal to match navbar */
+  border-radius: 10px; /* Soft rounded edges */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #013d42; /* Even darker teal on hover */
+}
+
+/* Custom Scrollbar for Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #024e58 #f1f1f1; /* Thumb color | Track color */
 }
