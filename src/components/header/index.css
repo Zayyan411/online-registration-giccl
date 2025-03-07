@@ -1,0 +1,26 @@
+.custom-navbar {
+  background: #036674;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+  padding: 15px 0;
+  z-index: 1000;
+}
+
+.custom-navbar.scrolled {
+  padding: 8px 0; /* Shrink effect */
+  background: #024e58; /* Darker shade on scroll */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.nav-toggle {
+  background: transparent !important;
+  border: none !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.nav-toggle:hover {
+  color: #ffcc00 !important; /* Hover effect */
+}

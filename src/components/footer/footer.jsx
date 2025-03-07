@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Container, Row, Stack } from "react-bootstrap";
 import { LinkRouter } from "../comon";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -38,6 +39,14 @@ const Footer = () => {
                 className="text-white"
               />
             </Stack>
+          </Col>
+          <Col>
+            <h2 className="text-white fs-4">Culture Day</h2>
+            <LinkRouter
+              path="/"
+              title="Culture Day Events"
+              className="text-white"
+            />
           </Col>
           <Col className="d-flex flex-column">
             <h2 className="text-white fs-4">Connect with us</h2>

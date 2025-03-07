@@ -11,6 +11,14 @@ const MapData = [
     src: "http://www.giccl.edu.pk/assets/images/3.jpg",
     alt: "Third slide",
   },
+  {
+    src: "http://www.giccl.edu.pk/assets/images/4.jpg",
+    alt: "Third slide",
+  },
+  {
+    src: "http://www.giccl.edu.pk/assets/images/18.jpg",
+    alt: "Third slide",
+  },
 
   {
     src: "http://www.giccl.edu.pk/assets/images/13.jpg",
