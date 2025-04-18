@@ -4,3 +4,4 @@ export * from "./page";
 export * from "./about";
 export * from "./blog";
 export * from "./admission-form";
+export * from "./authentication";

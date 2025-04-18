@@ -56,6 +56,27 @@ const Header = () => {
                 >
                   Bs
                 </Dropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/bs-prospectus"
+                  className="text-black fw-bold"
+                >
+                  Propectus
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/bs-fees"
+                  className="text-black fw-bold"
+                >
+                  Fee structure
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/merit-list"
+                  className="text-black fw-bold"
+                >
+                  Merit List
+                </NavDropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
 

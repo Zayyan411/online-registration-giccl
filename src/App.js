@@ -2,19 +2,31 @@ import React from "react";
 import {
   AdmissionBs,
   AdmissionIntermediate,
+  BsPropectus,
   ConferenceCards,
   DepartmentSection,
   ExaminationBs,
   ExaminationIntermediate,
+  FeeRules,
   Footer,
   Header,
+  MeritLists,
   TimeTableBs,
   TimeTableIntermediate,
 } from "./components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { About, AdmissionForm, Blog, ContactUs, MainPage } from "./pages";
+import {
+  About,
+  AdmissionForm,
+  Blog,
+  ContactUs,
+  ForgotPasswordPage,
+  LoginPage,
+  MainPage,
+  RegistrationForm,
+} from "./pages";
 
 const App = () => {
   return (
@@ -34,9 +46,17 @@ const App = () => {
           path="/inter-examinations"
           element={<ExaminationIntermediate />}
         />
+        {/* bs admission routes  */}
         <Route path="/bs-examinations" element={<ExaminationBs />} />
-        <Route path="inter-admission" element={<AdmissionIntermediate />} />
-        <Route path="bs-admission" element={<AdmissionBs />} />
+        <Route path="/inter-admission" element={<AdmissionIntermediate />} />
+        <Route path="/bs-admission" element={<AdmissionBs />} />
+        <Route path="/bs-prospectus" element={<BsPropectus />} />
+        <Route path="/bs-fees" element={<FeeRules />} />
+        <Route path="/merit-list" element={<MeritLists />} />
+        {/* authentication routes  */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/sign-up" element={<RegistrationForm />} />
+        <Route path="/forget-password" element={<ForgotPasswordPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

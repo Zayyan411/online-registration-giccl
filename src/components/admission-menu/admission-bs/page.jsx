@@ -7,7 +7,7 @@ const AdmissionBs = () => {
   return (
     <Container fluid className="flex gap-3">
       <BSProgramSection />
-      <BSPrograms />
+      {/* <BSPrograms /> */}
     </Container>
   );
 };

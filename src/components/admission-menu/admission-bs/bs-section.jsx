@@ -1,10 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Image } from "react-bootstrap";
+import { AdmissionsPage } from "./admission-page";
 
 const BSProgramSection = () => {
   return (
-    <div style={{ padding: "80px 0" }}>
-      <Container>
+    <div style={{ padding: "20px 0" }}>
+      {/* <Container>
         <Row>
           <Col md={6}>
             <h4 className="fw-bold fs-2">BS FOUR YEAR PROGRAMME</h4>
@@ -25,7 +26,8 @@ const BSProgramSection = () => {
             </p>
           </Col>
         </Row>
-      </Container>
+      </Container> */}
+      <AdmissionsPage />
     </div>
   );
 };
