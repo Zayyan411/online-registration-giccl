@@ -2,7 +2,7 @@ import React from "react";
 
 const AdmissionForm = () => (
   <div>
-    <h1>AdmissionForm</h1>
+    <h1>AdmissionForms</h1>
   </div>
 );
 
