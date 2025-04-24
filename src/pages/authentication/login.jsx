@@ -7,11 +7,15 @@ import {
   Card,
   Button,
   Form as BootstrapForm,
+  Spinner,
 } from "react-bootstrap";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -25,8 +29,15 @@ const LoginPage = () => {
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log("Form submitted:", values);
     setTimeout(() => {
+      if (
+        values.email === "servaid@mailinator.com" &&
+        values.password === "1234"
+      ) {
+        toast.success("login successfully");
+        return navigate("/dashboard");
+      }
+      toast.error("Invalid username or password");
       setSubmitting(false);
     }, 1000);
   };
@@ -91,7 +102,15 @@ const LoginPage = () => {
                         type="submit"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? "Logging in..." : "Login"}
+                        {isSubmitting ? (
+                          <Spinner
+                            animation="border"
+                            size="sm"
+                            className="me-2"
+                          />
+                        ) : (
+                          "Login"
+                        )}
                       </Button>
                     </div>
                   </Form>

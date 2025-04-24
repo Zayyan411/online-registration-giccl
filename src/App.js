@@ -19,24 +19,26 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   About,
-  AdmissionForm,
   Blog,
   ContactUs,
+  DashboardForm,
   ForgotPasswordPage,
   LoginPage,
   MainPage,
   RegistrationForm,
 } from "./pages";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <Header />
       <Routes>
         <Route path="/" index element={<MainPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/admission-form" element={<AdmissionForm />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/departments" element={<DepartmentSection />} />
         <Route path="/conferences" element={<ConferenceCards />} />
@@ -53,6 +55,7 @@ const App = () => {
         <Route path="/bs-prospectus" element={<BsPropectus />} />
         <Route path="/bs-fees" element={<FeeRules />} />
         <Route path="/merit-list" element={<MeritLists />} />
+        <Route path="/dashboard" element={<DashboardForm />} />
         {/* authentication routes  */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<RegistrationForm />} />

@@ -3,5 +3,5 @@ export * from "./contact-us";
 export * from "./page";
 export * from "./about";
 export * from "./blog";
-export * from "./admission-form";
+export * from "./dahboard";
 export * from "./authentication";
