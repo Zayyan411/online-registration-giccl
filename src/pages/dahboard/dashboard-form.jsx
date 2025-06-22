@@ -338,7 +338,7 @@ const DashboardForm = () => {
                           className="me-2"
                         />
                       ) : (
-                        "Register"
+                        "Submit"
                       )}
                     </Button>
                   </Col>

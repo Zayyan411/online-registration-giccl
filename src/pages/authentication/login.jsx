@@ -12,6 +12,7 @@ import {
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -28,18 +29,36 @@ const LoginPage = () => {
     password: "",
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      if (
-        values.email === "servaid@mailinator.com" &&
-        values.password === "1234"
-      ) {
-        toast.success("login successfully");
-        return navigate("/dashboard");
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        values
+      );
+
+      if (response.status === 200) {
+        const { token, user } = response.data;
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        toast.success("Login successful");
+        navigate("/dashboard");
+      } else {
+        toast.error("Invalid username or password");
       }
-      toast.error("Invalid username or password");
+    } catch (error) {
+      if (error.response) {
+        const message =
+          error.response.data.message ||
+          "Login failed. Please check your credentials.";
+        toast.error(message);
+      } else if (error.request) {
+        toast.error("No response from server. Please try again later.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    } finally {
       setSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (

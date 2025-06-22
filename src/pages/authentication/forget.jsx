@@ -7,34 +7,63 @@ import {
   Card,
   Button,
   Form as BootstrapForm,
-  Alert,
+  Spinner,
 } from "react-bootstrap";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
-  // Validation schema
+
   const validationSchema = Yup.object().shape({
-    mobileNumber: Yup.string()
-      .required("Mobile number is required")
-      .matches(/^[0-9]{11}$/, "Must be a valid 11-digit mobile number"),
+    currentPassword: Yup.string().required("Current password is required"),
+    newPassword: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("New password is required"),
   });
 
-  // Initial form values
   const initialValues = {
-    mobileNumber: "",
+    currentPassword: "",
+    newPassword: "",
   };
 
-  // Handle form submission
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log("Form submitted:", values);
-    // Here you would typically make an API call to send the reset link
-    setTimeout(() => {
+  const handleSubmit = async (values, { setSubmitting }) => {
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      toast.error("User not logged in. Please login first.");
       setSubmitting(false);
-      alert("Password reset link has been sent to your mobile number!");
-      navigate("/login");
-    }, 1000);
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/auth/updatepassword",
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Password updated successfully!");
+        navigate("/login");
+      } else {
+        toast.error("Something went wrong.");
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Server error. Please try again.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -43,7 +72,7 @@ const ForgotPasswordPage = () => {
       style={{ minHeight: "100vh" }}
     >
       <Row className="justify-content-center">
-        <Col md={6} lg={4}>
+        <Col md={6} lg={5}>
           <Card className="shadow">
             <Card.Body className="p-4">
               <div className="text-center mb-4">
@@ -51,7 +80,7 @@ const ForgotPasswordPage = () => {
                 <p className="text-muted">Courage to Know</p>
               </div>
 
-              <h4 className="text-center mb-3">Forgot Password?</h4>
+              <h4 className="text-center mb-3">Reset Password</h4>
 
               <Formik
                 initialValues={initialValues}
@@ -59,48 +88,60 @@ const ForgotPasswordPage = () => {
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
-                  <Form>
-                    <p className="text-center mb-3">
-                      Enter your active mobile number to receive link to reset
-                    </p>
-
-                    <Alert variant="warning" className="mb-3">
-                      <strong>Important!!!</strong> You can do forgot password
-                      process only for limited number of times so before
-                      clicking Submit button check your mobile space to receive
-                      sms.
-                    </Alert>
-
+                  <Form noValidate>
                     <BootstrapForm.Group className="mb-3">
-                      <BootstrapForm.Label>Mobile Number</BootstrapForm.Label>
+                      <BootstrapForm.Label>
+                        Current Password<span className="text-danger">*</span>
+                      </BootstrapForm.Label>
                       <Field
-                        name="mobileNumber"
-                        type="tel"
+                        name="currentPassword"
+                        type="password"
                         as={BootstrapForm.Control}
-                        placeholder="03XXXXXXXXX"
+                        placeholder="Enter your current password"
                       />
                       <ErrorMessage
-                        name="mobileNumber"
+                        name="currentPassword"
                         component="div"
                         className="text-danger small"
                       />
                     </BootstrapForm.Group>
 
-                    <div className="d-grid mb-3">
+                    <BootstrapForm.Group className="mb-4">
+                      <BootstrapForm.Label>
+                        New Password<span className="text-danger">*</span>
+                      </BootstrapForm.Label>
+                      <Field
+                        name="newPassword"
+                        type="password"
+                        as={BootstrapForm.Control}
+                        placeholder="Enter a new password"
+                      />
+                      <ErrorMessage
+                        name="newPassword"
+                        component="div"
+                        className="text-danger small"
+                      />
+                    </BootstrapForm.Group>
+
+                    <div className="d-grid">
                       <Button
                         variant="primary"
                         type="submit"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? "Sending..." : "Submit"}
+                        {isSubmitting ? (
+                          <>
+                            <Spinner
+                              animation="border"
+                              size="sm"
+                              className="me-2"
+                            />
+                            Updating...
+                          </>
+                        ) : (
+                          "Update Password"
+                        )}
                       </Button>
-                    </div>
-
-                    <div className="text-center">
-                      <p className="mb-0">
-                        Don't have an account?{" "}
-                        <Link to="/sign-up">Sign Up Here</Link>
-                      </p>
                     </div>
                   </Form>
                 )}
@@ -109,7 +150,7 @@ const ForgotPasswordPage = () => {
           </Card>
 
           <footer className="mt-3 text-center text-muted small">
-            Copyright 2023 - GIGCCL College Lahore. All Rights Reserved
+            Copyright © 2023 - GIGCCL College Lahore.
           </footer>
         </Col>
       </Row>

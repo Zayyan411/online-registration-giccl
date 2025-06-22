@@ -12,34 +12,52 @@ import {
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .min(8, "Password must be at least 8 characters")
-      .matches(/[A-Z]/, "Must contain at least one uppercase letter")
-      .matches(/[a-z]/, "Must contain at least one lowercase letter")
-      .matches(/[0-9]/, "Must contain at least one number"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("Please confirm your password"),
+    password: Yup.string().required("Password is required"),
   });
+
   const initialValues = {
+    name: "",
     email: "",
     password: "",
-    confirmPassword: "",
   };
-  const handleSubmit = (values, { setSubmitting }) => {
-    if (values) {
-      toast.success("Registration submitted successfully!");
-      navigate("/login");
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    console.log(values, "values");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        values
+      );
+
+      if (response.status === 201) {
+        toast.success("Registration submitted successfully!");
+        navigate("/login");
+      } else {
+        toast.error("Invalid username or password");
+      }
+    } catch (error) {
+      if (error.response) {
+        const message =
+          error.response.data.message ||
+          "Login failed. Please check your credentials.";
+        toast.error(message);
+      } else if (error.request) {
+        toast.error("No response from server. Please try again later.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
   };
   return (
     <Container className="py-5">
@@ -57,38 +75,33 @@ const RegistrationForm = () => {
                   <Form>
                     <BootstrapForm.Group className="mb-3">
                       <BootstrapForm.Label>
-                        Email
-                        <small>
-                          (Enter a valid email; be careful it will not change
-                          later)
-                        </small>
+                        Name
                         <span className="text-danger">*</span>
                       </BootstrapForm.Label>
                       <Field
-                        name="email"
-                        type="email"
+                        name="name"
+                        type="text"
                         as={BootstrapForm.Control}
-                        placeholder="example@domain.com"
+                        placeholder="Enter a name"
                       />
                       <ErrorMessage
-                        name="email"
+                        name="name"
                         component="div"
                         className="text-danger small"
                       />
                     </BootstrapForm.Group>
                     <BootstrapForm.Group className="mb-3">
                       <BootstrapForm.Label>
-                        Password
+                        Email
                         <span className="text-danger">*</span>
                       </BootstrapForm.Label>
                       <Field
-                        name="password"
-                        type="password"
+                        name="email"
+                        type="text"
                         as={BootstrapForm.Control}
-                        placeholder="Create a strong password"
                       />
                       <ErrorMessage
-                        name="password"
+                        name="email"
                         component="div"
                         className="text-danger small"
                       />
@@ -96,21 +109,20 @@ const RegistrationForm = () => {
 
                     <BootstrapForm.Group className="mb-4">
                       <BootstrapForm.Label>
-                        Confirm Password<span className="text-danger">*</span>
+                        Password<span className="text-danger">*</span>
                       </BootstrapForm.Label>
                       <Field
-                        name="confirmPassword"
+                        name="password"
                         type="password"
                         as={BootstrapForm.Control}
-                        placeholder="Re-enter your password"
+                        placeholder="enter your password"
                       />
                       <ErrorMessage
-                        name="confirmPassword"
+                        name="password"
                         component="div"
                         className="text-danger small"
                       />
                     </BootstrapForm.Group>
-
                     <div className="d-grid">
                       <Button
                         variant="primary"
