@@ -10,57 +10,31 @@ import {
   Spinner,
 } from "react-bootstrap";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const ForgotPasswordPage = () => {
-  const navigate = useNavigate();
-
   const validationSchema = Yup.object().shape({
-    currentPassword: Yup.string().required("Current password is required"),
-    newPassword: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("New password is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
   });
 
-  const initialValues = {
-    currentPassword: "",
-    newPassword: "",
-  };
+  const initialValues = { email: "" };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    const token = localStorage.getItem("authToken");
-
-    if (!token) {
-      toast.error("User not logged in. Please login first.");
-      setSubmitting(false);
-      return;
-    }
-
     try {
-      const response = await axios.put(
-        "http://localhost:5000/api/auth/updatepassword",
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/forgotpassword",
+        values
       );
-
       if (response.status === 200) {
-        toast.success("Password updated successfully!");
-        navigate("/login");
+        toast.success("Reset link sent to your email!");
       } else {
         toast.error("Something went wrong.");
       }
     } catch (error) {
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("Server error. Please try again.");
-      }
+      toast.error(error?.response?.data?.message || "Server error. Try again.");
     } finally {
       setSubmitting(false);
     }
@@ -79,8 +53,7 @@ const ForgotPasswordPage = () => {
                 <h2 className="fw-bold">GIGCCL</h2>
                 <p className="text-muted">Courage to Know</p>
               </div>
-
-              <h4 className="text-center mb-3">Reset Password</h4>
+              <h4 className="text-center mb-3">Forgot Password</h4>
 
               <Formik
                 initialValues={initialValues}
@@ -89,35 +62,18 @@ const ForgotPasswordPage = () => {
               >
                 {({ isSubmitting }) => (
                   <Form noValidate>
-                    <BootstrapForm.Group className="mb-3">
-                      <BootstrapForm.Label>
-                        Current Password<span className="text-danger">*</span>
-                      </BootstrapForm.Label>
-                      <Field
-                        name="currentPassword"
-                        type="password"
-                        as={BootstrapForm.Control}
-                        placeholder="Enter your current password"
-                      />
-                      <ErrorMessage
-                        name="currentPassword"
-                        component="div"
-                        className="text-danger small"
-                      />
-                    </BootstrapForm.Group>
-
                     <BootstrapForm.Group className="mb-4">
                       <BootstrapForm.Label>
-                        New Password<span className="text-danger">*</span>
+                        Email <span className="text-danger">*</span>
                       </BootstrapForm.Label>
                       <Field
-                        name="newPassword"
-                        type="password"
+                        name="email"
+                        type="email"
                         as={BootstrapForm.Control}
-                        placeholder="Enter a new password"
+                        placeholder="Enter your email"
                       />
                       <ErrorMessage
-                        name="newPassword"
+                        name="email"
                         component="div"
                         className="text-danger small"
                       />
@@ -136,10 +92,10 @@ const ForgotPasswordPage = () => {
                               size="sm"
                               className="me-2"
                             />
-                            Updating...
+                            Sending...
                           </>
                         ) : (
-                          "Update Password"
+                          "Send Reset Link"
                         )}
                       </Button>
                     </div>
@@ -148,7 +104,6 @@ const ForgotPasswordPage = () => {
               </Formik>
             </Card.Body>
           </Card>
-
           <footer className="mt-3 text-center text-muted small">
             Copyright © 2023 - GIGCCL College Lahore.
           </footer>

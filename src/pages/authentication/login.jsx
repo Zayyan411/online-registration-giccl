@@ -137,7 +137,7 @@ const LoginPage = () => {
               </Formik>
 
               <div className="text-center">
-                <Link to="/forget-password" className="d-block mb-2">
+                <Link to="/forgot-password" className="d-block mb-2">
                   Forgot Password?
                 </Link>
                 <p className="mb-0">

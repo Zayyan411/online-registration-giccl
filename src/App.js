@@ -26,6 +26,7 @@ import {
   LoginPage,
   MainPage,
   RegistrationForm,
+  ResetPasswordPage,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -59,7 +60,8 @@ const App = () => {
         {/* authentication routes  */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<RegistrationForm />} />
-        <Route path="/forget-password" element={<ForgotPasswordPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>
