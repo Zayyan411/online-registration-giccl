@@ -3,9 +3,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { LinkRouter } from "../comon";
 import { Dropdown, NavDropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { DropdownMenu } from "./drop-down";
 
 const Header = () => {
+  const location = useLocation();
   return (
     <Navbar
       expand="lg"
@@ -155,6 +157,7 @@ const Header = () => {
               title="Contact us"
               className="text-white fw-bold"
             />
+            {location.pathname.startsWith("/dashboard") && <DropdownMenu />}
           </Nav>
         </Navbar.Collapse>
       </Container>

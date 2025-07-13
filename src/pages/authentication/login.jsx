@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   Container,
@@ -13,10 +13,11 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { ActiveContext } from "../../App";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-
+  const { setUser } = useContext(ActiveContext);
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -37,9 +38,9 @@ const LoginPage = () => {
       );
 
       if (response.status === 200) {
-        const { token, user } = response.data;
+        const { token, user: userData } = response.data;
+        setUser(userData);
         localStorage.setItem("authToken", token);
-        localStorage.setItem("user", JSON.stringify(user));
         toast.success("Login successful");
         navigate("/dashboard");
       } else {

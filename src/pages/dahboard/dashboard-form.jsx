@@ -14,13 +14,44 @@ import { toast } from "react-toastify";
 
 const DashboardForm = () => {
   const navigate = useNavigate();
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log("Form submitted:", values);
-    setTimeout(() => {
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const formData = new FormData();
+      formData.append("firstName", values.fname);
+      formData.append("middleName", values.middleName);
+      formData.append("lastName", values.lname);
+      formData.append("fatherName", values.fatherName);
+      formData.append("cnic", values.cnic);
+      formData.append("fatherCnic", values.fCnic);
+      formData.append("gender", values.gender);
+      formData.append("dateOfBirth", values.dob);
+      formData.append("phoneNumber", values.phone);
+      formData.append("email", values.email);
+      formData.append("address1", values.address1);
+      formData.append("address2", values.address2 || "");
+      formData.append("country", values.country);
+      formData.append("city", values.city);
+      formData.append("state", values.state || "");
+      formData.append("image", values.picture);
+
+      const response = await fetch("http://localhost:5000/api/auth/admission", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Admission submitted successfully!");
+      } else {
+        toast.error(data.message || "Submission failed");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong!");
+    } finally {
       setSubmitting(false);
-      toast.success("Registration submitted successfully!");
-      navigate("/login");
-    }, 1000);
+    }
   };
 
   return (
@@ -86,7 +117,27 @@ const DashboardForm = () => {
                   <Col md={4}>
                     <BootstrapForm.Group className="mb-3">
                       <BootstrapForm.Label>
-                        Father's Name<span className="text-danger">*</span>
+                        CNIC / B-Form No
+                        <span className="text-danger">*</span>
+                      </BootstrapForm.Label>
+                      <Field
+                        name="cnic"
+                        type="text"
+                        as={BootstrapForm.Control}
+                        placeholder="XXXXX-XXXXXXX-X"
+                        maxLength={15}
+                      />
+                      <ErrorMessage
+                        name="cnic"
+                        component="div"
+                        className="text-danger small"
+                      />
+                    </BootstrapForm.Group>
+                  </Col>
+                  <Col md={4}>
+                    <BootstrapForm.Group className="mb-3">
+                      <BootstrapForm.Label>
+                        Father Name<span className="text-danger">*</span>
                       </BootstrapForm.Label>
                       <Field
                         name="fatherName"
@@ -103,19 +154,16 @@ const DashboardForm = () => {
                   </Col>
                   <Col md={4}>
                     <BootstrapForm.Group className="mb-3">
-                      <BootstrapForm.Label>
-                        CNIC / B-Form No
-                        <span className="text-danger">*</span>
-                      </BootstrapForm.Label>
+                      <BootstrapForm.Label>Father CNIC</BootstrapForm.Label>
                       <Field
-                        name="cnic"
+                        name="fCnic"
                         type="text"
                         as={BootstrapForm.Control}
                         placeholder="XXXXX-XXXXXXX-X"
                         maxLength={15}
                       />
                       <ErrorMessage
-                        name="cnic"
+                        name="fCnic"
                         component="div"
                         className="text-danger small"
                       />
@@ -180,18 +228,17 @@ const DashboardForm = () => {
                   <Col md={4}>
                     <BootstrapForm.Group className="mb-3">
                       <BootstrapForm.Label>
-                        City<span className="text-danger">*</span>
+                        Phone Number<span className="text-danger">*</span>
                       </BootstrapForm.Label>
-                      <Field name="city" as={BootstrapForm.Select}>
-                        <option value="">Select an Option</option>
-                        <option value="karachi">Karachi</option>
-                        <option value="lahore">Lahore</option>
-                        <option value="islamabad">Islamabad</option>
-                        <option value="peshawar">Peshawar</option>
-                        <option value="quetta">Quetta</option>
-                      </Field>
+                      <Field
+                        name="phone"
+                        type="tel"
+                        as={BootstrapForm.Control}
+                        placeholder="03XXXXXXXXX"
+                        maxLength={15}
+                      />
                       <ErrorMessage
-                        name="city"
+                        name="phone"
                         component="div"
                         className="text-danger small"
                       />
@@ -225,25 +272,6 @@ const DashboardForm = () => {
                   <Col md={4}>
                     <BootstrapForm.Group className="mb-3">
                       <BootstrapForm.Label>
-                        Phone Number<span className="text-danger">*</span>
-                      </BootstrapForm.Label>
-                      <Field
-                        name="phone"
-                        type="tel"
-                        as={BootstrapForm.Control}
-                        placeholder="03XXXXXXXXX"
-                        maxLength={15}
-                      />
-                      <ErrorMessage
-                        name="phone"
-                        component="div"
-                        className="text-danger small"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
-                  <Col md={4}>
-                    <BootstrapForm.Group className="mb-3">
-                      <BootstrapForm.Label>
                         Email
                         <span className="text-danger">*</span>
                       </BootstrapForm.Label>
@@ -260,42 +288,7 @@ const DashboardForm = () => {
                       />
                     </BootstrapForm.Group>
                   </Col>
-                  <Col md={4}>
-                    <BootstrapForm.Group className="mb-3">
-                      <BootstrapForm.Label>
-                        Password <span className="text-danger">*</span>
-                      </BootstrapForm.Label>
-                      <Field
-                        name="password"
-                        type="password"
-                        as={BootstrapForm.Control}
-                      />
-                      <ErrorMessage
-                        name="password"
-                        component="div"
-                        className="text-danger small"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
-                  <Col md={4}>
-                    <BootstrapForm.Group className="mb-3">
-                      <BootstrapForm.Label>
-                        Confirm Password
-                        <span className="text-danger">*</span>
-                      </BootstrapForm.Label>
-                      <Field
-                        name="confirmPassword"
-                        type="password"
-                        as={BootstrapForm.Control}
-                      />
-                      <ErrorMessage
-                        name="confirmPassword"
-                        component="div"
-                        className="text-danger small"
-                      />
-                    </BootstrapForm.Group>
-                  </Col>
-                  <Col md={4}>
+                  <Col md={12}>
                     <BootstrapForm.Group className="mb-4">
                       <BootstrapForm.Label>
                         Address1<span className="text-danger">*</span>
@@ -313,7 +306,7 @@ const DashboardForm = () => {
                       />
                     </BootstrapForm.Group>
                   </Col>
-                  <Col md={4}>
+                  <Col md={12}>
                     <BootstrapForm.Group className="mb-4">
                       <BootstrapForm.Label>Address2</BootstrapForm.Label>
                       <Field
@@ -325,6 +318,58 @@ const DashboardForm = () => {
                     </BootstrapForm.Group>
                   </Col>
                   <Col md={4}>
+                    <BootstrapForm.Group className="mb-3">
+                      <BootstrapForm.Label>
+                        Country <span className="text-danger">*</span>
+                      </BootstrapForm.Label>
+                      <Field
+                        name="country"
+                        as={BootstrapForm.Control}
+                        placeholder="Enter Country Name"
+                      />
+                      <ErrorMessage
+                        name="country"
+                        component="div"
+                        className="text-danger small"
+                      />
+                    </BootstrapForm.Group>
+                  </Col>
+                  <Col md={4}>
+                    <BootstrapForm.Group className="mb-3">
+                      <BootstrapForm.Label>
+                        City<span className="text-danger">*</span>
+                      </BootstrapForm.Label>
+                      <Field name="city" as={BootstrapForm.Select}>
+                        <option value="">Select an Option</option>
+                        <option value="karachi">Karachi</option>
+                        <option value="lahore">Lahore</option>
+                        <option value="islamabad">Islamabad</option>
+                        <option value="peshawar">Peshawar</option>
+                        <option value="quetta">Quetta</option>
+                      </Field>
+                      <ErrorMessage
+                        name="city"
+                        component="div"
+                        className="text-danger small"
+                      />
+                    </BootstrapForm.Group>
+                  </Col>
+                  <Col md={4}>
+                    <BootstrapForm.Group className="mb-3">
+                      <BootstrapForm.Label>State</BootstrapForm.Label>
+                      <Field
+                        name="state"
+                        as={BootstrapForm.Control}
+                        placeholder="Enter State"
+                      />
+                      <ErrorMessage
+                        name="state"
+                        component="div"
+                        className="text-danger small"
+                      />
+                    </BootstrapForm.Group>
+                  </Col>
+                  <Col md={12}>
                     <Button
                       variant="primary"
                       type="submit"

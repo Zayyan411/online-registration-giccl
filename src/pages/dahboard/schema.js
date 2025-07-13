@@ -1,45 +1,44 @@
 import * as Yup from "yup";
+
 const validationSchema = Yup.object().shape({
   fname: Yup.string().required("First Name is required"),
   middleName: Yup.string().required("Middle Name is required"),
   lname: Yup.string().required("Last Name is required"),
   fatherName: Yup.string().required("Father's name is required"),
   cnic: Yup.string()
-    .required("CNIC/B-Form is required")
-    .max(15, "CNIC must not be more than 15 characters"),
+    .required("CNIC is required")
+    .matches(
+      /^\d{5}-\d{7}-\d{1}$/,
+      "Invalid CNIC format (e.g., 35202-1234567-8)"
+    ),
+  fCnic: Yup.string()
+    .required("Father's CNIC is required")
+    .matches(
+      /^\d{5}-\d{7}-\d{1}$/,
+      "Invalid CNIC format (e.g., 35202-1234567-8)"
+    ),
   gender: Yup.string().required("Gender is required"),
   dob: Yup.date().required("Date of birth is required"),
   address1: Yup.string().required("Address1 is required"),
-  address2: Yup.string().optional(),
+  address2: Yup.string(),
+  country: Yup.string().required("Country is required"),
   city: Yup.string().required("City is required"),
+  state: Yup.string(),
   phone: Yup.string()
     .required("Phone number is required")
-    .matches(/^[0-9]{11}$/, "Must be 11 digits"),
+    .matches(/^\d{11}$/, "Must be exactly 11 digits (e.g., 03001234567)"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
-  password: Yup.string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/[A-Z]/, "Must contain at least one uppercase letter")
-    .matches(/[a-z]/, "Must contain at least one lowercase letter")
-    .matches(/[0-9]/, "Must contain at least one number"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Please confirm your password"),
   picture: Yup.mixed()
     .required("Picture is required")
-    .test(
-      "fileSize",
-      "File too large",
-      (value) => !value || (value && value.size <= 2000000) // 2MB
+    .test("fileSize", "File too large (max 2MB)", (value) =>
+      value ? value.size <= 2000000 : false
     )
-    .test(
-      "fileFormat",
-      "Unsupported Format",
-      (value) =>
-        !value ||
-        (value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type))
+    .test("fileFormat", "Unsupported file format", (value) =>
+      value
+        ? ["image/jpg", "image/jpeg", "image/png"].includes(value.type)
+        : false
     ),
 });
 
@@ -49,15 +48,17 @@ const initialValues = {
   lname: "",
   fatherName: "",
   cnic: "",
+  fCnic: "",
   gender: "",
   dob: "",
   address1: "",
   address2: "",
+  country: "",
   city: "",
+  state: "",
   phone: "",
   email: "",
-  password: "",
-  confirmPassword: "",
-  picture: "",
+  picture: null,
 };
+
 export { validationSchema, initialValues };

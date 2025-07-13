@@ -31,7 +31,6 @@ const RegistrationForm = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log(values, "values");
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/register",
