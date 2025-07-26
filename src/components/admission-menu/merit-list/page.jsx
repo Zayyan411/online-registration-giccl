@@ -1,80 +1,86 @@
-import React from "react";
-import { Container, Card, ListGroup, Badge } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Card, Table, Spinner, Badge } from "react-bootstrap";
+import axios from "axios";
 
 const MeritLists = () => {
-  // Sample data - replace with your actual data
-  const meritLists = [
-    {
-      id: 1,
-      name: "Intermediate (F.A / F.Sc / I.Com)",
-      status: "Pending",
-      schedule: "To be announced",
-    },
-    {
-      id: 2,
-      name: "BS Program",
-      status: "Pending",
-      schedule: "To be announced",
-    },
-    {
-      id: 3,
-      name: "MS / M.Phil",
-      status: "Pending",
-      schedule: "To be announced",
-    },
-    {
-      id: 4,
-      name: "MBA / E.MBA",
-      status: "Pending",
-      schedule: "To be announced",
-    },
-    { id: 5, name: "Diplomas", status: "Pending", schedule: "To be announced" },
-    {
-      id: 6,
-      name: "Certificates",
-      status: "Pending",
-      schedule: "To be announced",
-    },
-    { id: 7, name: "Hostels", status: "Pending", schedule: "To be announced" },
-  ];
+  const [meritLists, setMeritLists] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchMeritLists = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/merit-lists");
+        const list = res.data.data;
+        setMeritLists(list);
+      } catch (err) {
+        console.error("Failed to fetch merit lists:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMeritLists();
+  }, []);
+  if (meritLists?.length === 0) {
+    return <p>No merit lists available</p>;
+  }
   return (
     <Container className="my-5">
       <Card>
-        <Card.Header
-          style={{
-            background: "#036674",
-          }}
-          className="text-white"
-        >
+        <Card.Header style={{ background: "#036674" }} className="text-white">
           <h2 className="mb-0">MERIT LISTS</h2>
         </Card.Header>
         <Card.Body>
           <Card.Text>
-            Merit List will be uploaded as per Admissions schedule.
+            Below are the merit lists for BS programs (Morning and Evening):
           </Card.Text>
 
-          <ListGroup variant="flush">
-            {meritLists.map((item) => (
-              <ListGroup.Item
-                key={item.id}
-                className="d-flex justify-content-between align-items-center"
-              >
-                <div>
-                  <h5>{item.name}</h5>
-                  <small className="text-muted">
-                    Schedule: {item.schedule}
-                  </small>
-                </div>
-                <Badge
-                  pill
-                  bg={item.status === "Available" ? "success" : "warning"}
-                >
-                  {item.status}
-                </Badge>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
+          {loading ? (
+            <Spinner animation="border" variant="primary" />
+          ) : (
+            <Table striped bordered hover responsive>
+              <thead>
+                <tr>
+                  <th>Program</th>
+                  <th>Morning List</th>
+                  <th>Evening List</th>
+                </tr>
+              </thead>
+              <tbody>
+                {meritLists.map((item) => (
+                  <tr key={item.program}>
+                    <td>{item.program}</td>
+                    <td>
+                      {item.morning ? (
+                        <>
+                          Merit: {item.morning.merit} | Schedule:{" "}
+                          {item.morning.schedule}{" "}
+                          <Badge bg="success" className="ms-2">
+                            {item.morning.status}
+                          </Badge>
+                        </>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                    <td>
+                      {item.evening ? (
+                        <>
+                          Merit: {item.evening.merit} | Schedule:{" "}
+                          {item.evening.schedule}{" "}
+                          <Badge bg="success" className="ms-2">
+                            {item.evening.status}
+                          </Badge>
+                        </>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </Card.Body>
         <Card.Footer className="text-muted">
           Last updated: {new Date().toLocaleDateString()}
