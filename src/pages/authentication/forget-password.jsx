@@ -25,7 +25,7 @@ const ForgotPasswordPage = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/forgotpassword",
+        "https://online-registration-backened.vercel.app/api/auth/forgotpassword",
         values
       );
       if (response.status === 200) {

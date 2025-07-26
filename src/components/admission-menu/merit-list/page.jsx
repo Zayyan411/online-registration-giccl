@@ -9,7 +9,9 @@ const MeritLists = () => {
   useEffect(() => {
     const fetchMeritLists = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/merit-lists");
+        const res = await axios.get(
+          "https://online-registration-backened.vercel.app/api/merit-lists"
+        );
         const list = res.data.data;
         setMeritLists(list);
       } catch (err) {

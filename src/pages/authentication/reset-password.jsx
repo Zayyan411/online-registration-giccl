@@ -27,7 +27,7 @@ const ResetPasswordPage = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/auth/resetpassword/${token}`,
+        `https://online-registration-backened.vercel.app/api/auth/resetpassword/${token}`,
         values
       );
 

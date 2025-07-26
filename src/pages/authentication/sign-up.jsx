@@ -33,7 +33,7 @@ const RegistrationForm = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://online-registration-backened.vercel.app/api/auth/register",
         values
       );
 
